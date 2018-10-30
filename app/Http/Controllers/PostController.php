@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\User;
 
-class UserController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index', [
-            'users' => User::get(),
+        return view('posts.index', [
+            'posts' => Post::paginate(10),
         ]);
     }
 
@@ -26,7 +27,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('posts.create', [
+            'users' => User::get()
+        ]);
     }
 
     /**
@@ -37,36 +40,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User;
-        $request->password = bcrypt($request->password);
-        $user::create($request->all());
+        // dd($request->user_id);
+        Post::create($request->all());
 
-        return redirect()->route('users.index');
+        return redirect()->route('posts.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\AppUser  $appUser
+     * @param  \App\ModelsPost  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Post $post)
     {
-        return view('users.show', [
-            'user' => $user,
+        return view('posts.show', [
+            'post' => $post,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AppUser  $appUser
+     * @param  \App\ModelsPost  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Post $post)
     {
-        return view('users.edit', [
-            'user' => $user,
+        return view('posts.edit', [
+            'post' => $post,
+            'users' => User::get()
         ]);
     }
 
@@ -74,26 +77,26 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AppUser  $appUser
+     * @param  \App\ModelsPost  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Post $post)
     {
-        $user->update($request->all());
+        $post->update($request->all());
 
-        return redirect()->route('users.index');
+        return redirect()->route('posts.show', $post);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AppUser  $appUser
+     * @param  \App\ModelsPost  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Post $post)
     {
-        $user->delete();
+        $post->delete();
 
-        return redirect()->route('users.index');
+        return redirect()->route('posts.index');
     }
 }
