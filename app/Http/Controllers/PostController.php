@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\View\View
+use Illuminate\Http\RedirectResponse
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('posts.index', [
             'posts' => Post::paginate(10),
@@ -23,9 +25,9 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('posts.create', [
             'users' => User::get()
@@ -35,10 +37,10 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         // dd($request->user_id);
         Post::create($request->all());
@@ -49,10 +51,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ModelsPost  $post
-     * @return \Illuminate\Http\Response
+     * @param  Post  $post
+     * @return View
      */
-    public function show(Post $post)
+    public function show(Post $post): View
     {
         return view('posts.show', [
             'post' => $post,
@@ -62,10 +64,10 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ModelsPost  $post
-     * @return \Illuminate\Http\Response
+     * @param  Post  $post
+     * @return View
      */
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         return view('posts.edit', [
             'post' => $post,
@@ -76,11 +78,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ModelsPost  $post
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Post  $post
+     * @return RedirectResponse
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): RedirectResponse
     {
         $post->update($request->all());
 
@@ -90,10 +92,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ModelsPost  $post
-     * @return \Illuminate\Http\Response
+     * @param  Post  $post
+     * @return RedirectResponse
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
 

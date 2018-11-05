@@ -56,7 +56,11 @@ class UserApiController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->only(['name', 'email']));
+        // $user->update($request->only(['name', 'email']));
+        if($request->name){$user->name = $request->name;}
+        if($request->email){$user->email = $request->email;}
+        if($request->password){$user->password = bcrypt($request->password);}
+        $user->save();
 
         return new UserResource($user);
     }

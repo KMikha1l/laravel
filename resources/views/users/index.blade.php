@@ -24,7 +24,7 @@
               </td>
               <td>{{ $user->email }}</td>
               <td>
-                <form onsubmit="if(!confirm('Удалить пользователя?')){return false;}" class="d-inline-block" action="{{ route('users.destroy', $user) }}" method="post">                                  
+                <form onsubmit="if(!confirm('Удалить пользователя?')){return false;}" class="d-inline-block" action="{{ route('users.destroy', $user) }}" method="post">
                   @csrf
                   @method('delete')
                   <button class="btn btn-outline-primary">

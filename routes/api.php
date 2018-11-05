@@ -23,12 +23,12 @@ Route::group(array('prefix' => 'users'), function()
 {
 
   Route::put('/', array('uses' => 'UserApiController@store'));
-  Route::put('/{user}', 'UserApiController@update', function($user){
+  Route::put('/{user}', 'UserApiController@update', function(User $user){
     return $user;
   });
 
   Route::get('/', 'UserApiController@index');
-  Route::get('/{user}', 'UserApiController@show', function($user){
+  Route::get('/{user}', 'UserApiController@show', function(User $user){
     return $user;
   });
 
@@ -41,12 +41,12 @@ Route::group(array('prefix' => 'users'), function()
 Route::group(array('prefix' => 'posts'), function()
 {
   Route::get('/', 'PostApiController@index');
-  Route::get('/{post}', 'PostApiController@show', function($post){
+  Route::get('/{post}', 'PostApiController@show', function(User $post){
     return $post;
   });
 
   Route::put('/', 'PostApiController@store');
-  Route::put('/{post}', 'PostApiController@update', function($post){
+  Route::put('/{post}', 'PostApiController@update', function(User $post){
     return $post;
   });
 

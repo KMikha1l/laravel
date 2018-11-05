@@ -14,7 +14,7 @@
         <select id="formInputUser" name="user_id" class="form-control">
           @foreach($users as $user)
             <option value="{{ $user->id }}"
-            @if($user->id == $                                                                          post->user_id)
+            @if($user->id == $post->user_id)
               selected
             @endif
             >{{ $user->email }}</option>

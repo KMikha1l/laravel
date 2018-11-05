@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('users.index', [
             'users' => User::get(),
@@ -22,20 +25,22 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        return view('users.create');
+        return view( 'users.create', [
+            'roles' => UserRole::get(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $user = new User;
         $request->password = bcrypt($request->password);
@@ -47,10 +52,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AppUser  $appUser
-     * @return \Illuminate\Http\Response
+     * @param  User $user
+     * @return View
      */
-    public function show(User $user)
+    public function show(User $user): View
     {
         return view('users.show', [
             'user' => $user,
@@ -60,24 +65,25 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AppUser  $appUser
-     * @return \Illuminate\Http\Response
+     * @param  User $user
+     * @return View
      */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         return view('users.edit', [
             'user' => $user,
+            'roles' => UserRole::get(),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AppUser  $appUser
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  User $user
+     * @return RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $user->update($request->all());
 
@@ -87,10 +93,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AppUser  $appUser
-     * @return \Illuminate\Http\Response
+     * @param  User $user
+     * @return RedirectResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
