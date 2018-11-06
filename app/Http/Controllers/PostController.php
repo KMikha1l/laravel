@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\User;
-
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\User;
+use Illuminate\View\View
+use Illuminate\Http\RedirectResponse
 
 class PostController extends Controller
 {

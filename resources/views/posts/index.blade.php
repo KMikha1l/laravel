@@ -3,7 +3,6 @@
 
 @section('content')
 	<div class="container">
-
     <a href="{{ route('posts.create') }}">
       <button class="btn btn-primary mb-2">New post</button>
     </a>
@@ -23,17 +22,14 @@
               <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
             </td>
             <td>
-              @role(moder)
-                <a href="{{ route('posts.edit', $post) }}">
-                  <button class="btn btn-outline-primary">Edit</button>
-                </a>
-
-                <form onsubmit="if(!confirm('Удалить пост?')){return false;}" class="d-inline" action="{{ route('posts.destroy', $post) }}" method="post">
-                  @csrf
-                  @method('delete')
-                  <button class="btn btn-outline-primary" role="submit">Delete</button>
-                </form>
-              @endrole
+              <a href="{{ route('posts.edit', $post) }}">
+                <button class="btn btn-outline-primary">Edit</button>
+              </a>
+              <form onsubmit="if(!confirm('Удалить пост?')){return false;}" class="d-inline" action="{{ route('posts.destroy', $post) }}" method="post">
+                @csrf
+                @method('delete')
+                <button class="btn btn-outline-primary" role="submit">Delete</button>
+              </form>
             </td>
           </tr>
         @endforeach

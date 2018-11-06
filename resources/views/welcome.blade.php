@@ -75,7 +75,6 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     <a href="{{ route('users.index') }}">Пользователи</a>
-                    <a href="{{ route('posts.index') }}">Посты</a>
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
