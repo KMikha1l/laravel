@@ -173,6 +173,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Роли пользователей
+        Dlnsk\HierarchicalRBAC\HRBACServiceProvider::class,
+
     ],
 
     /*
