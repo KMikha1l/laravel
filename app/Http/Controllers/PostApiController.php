@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use App\Post;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
+
 
 class PostApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return PostResource::collection(Post::paginate());
     }
@@ -22,9 +28,9 @@ class PostApiController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return PostResource
      */
-    public function store(Request $request)
+    public function store(Request $request): PostResource
     {
         $post = Post::create([
             'title' => $request->title,
@@ -39,9 +45,9 @@ class PostApiController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return PostResource
      */
-    public function show(Post $post)
+    public function show(Post $post): PostResource
     {
         return new PostResource($post);
     }
@@ -51,9 +57,9 @@ class PostApiController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return PostResource
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): PostResource
     {
         $post->update($request->only(['title', 'user_id', 'content']));
 
@@ -64,9 +70,9 @@ class PostApiController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): JsonResponse
     {
         $post->delete();
 

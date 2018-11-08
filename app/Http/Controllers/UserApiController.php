@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Resources\UserResource;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
+
 class UserApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return UserResource::collection(User::paginate(25));
     }
@@ -23,9 +26,9 @@ class UserApiController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
-    public function store(Request $request)
+    public function store(Request $request): UserResource
     {
         $user = User::create([
             'name' => $request->name,
@@ -40,9 +43,9 @@ class UserApiController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
-    public function show(User $user)
+    public function show(User $user): UserResource
     {
         return new UserResource($user);
     }
@@ -52,9 +55,9 @@ class UserApiController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): UserResource
     {
         // $user->update($request->only(['name', 'email']));
         if($request->name){$user->name = $request->name;}
@@ -69,9 +72,9 @@ class UserApiController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user): JsonResponse
     {
         $user->delete();
 
