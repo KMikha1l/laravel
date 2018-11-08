@@ -1,16 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostResource;
-use App\Post;
-
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\JsonResponse;
-
+use \App\Http\Resources\PostResource;
+use \App\Post;
+use \Illuminate\Http\Request;
+use \Illuminate\Http\Response;
+use \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use \Illuminate\Http\JsonResponse;
 
 class PostApiController extends Controller
 {
