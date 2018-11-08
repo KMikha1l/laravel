@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 
+use Illuminate\View\View;
+
 class HomeController extends Controller
 {
     /**
@@ -22,10 +24,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         return view('home', [
-        'users' => User::get(),
+            'users' => User::get(),
         ]);
     }
 }
