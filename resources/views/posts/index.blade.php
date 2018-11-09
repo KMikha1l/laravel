@@ -22,6 +22,7 @@
               <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
             </td>
             <td>
+            @role(user)
               <a href="{{ route('posts.edit', $post) }}">
                 <button class="btn btn-outline-primary">Edit</button>
               </a>
@@ -30,6 +31,7 @@
                 @method('delete')
                 <button class="btn btn-outline-primary" role="submit">Delete</button>
               </form>
+            @endrole
             </td>
           </tr>
         @endforeach
