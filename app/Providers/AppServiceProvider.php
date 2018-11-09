@@ -21,20 +21,20 @@ class AppServiceProvider extends ServiceProvider
          * @param  string  $expression
          * @return string
          */
-        Blade::directive('role', function($expression) {
+        Blade::directive('role', function (string $expression) {
             // Create a list of roles
-            $this->roles = array(
+            $this->roles = [
                 'admin' => 1,
                 'moder' => 2,
                 'user' => 3,
-            );
+            ];
 
             // Chose the role of the current user
             $userRole = $this->roles[$expression];
 
             return "
                 <?php
-                    if(Auth::user()->role_id <= $userRole):
+                    if (Auth::user()->role_id <= $userRole):
                 ?>
             ";
         });
