@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', function () {
+
+Route::get('/', function (): \Illuminate\View\View {
     return view('welcome', [
         'users' => App\User::get(),
     ]);
@@ -24,11 +25,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function ()
 {
   Route::resource('/users', 'UserController', ['middleware' => 'role:admin', 'name' => 'users']);
+
   // Free access for all users
   Route::resource('/posts', 'PostController',
     [
-    'name' => 'posts',
-    'only' => ['index', 'create', 'store']
+      'name' => 'posts',
+      'only' => ['index', 'create', 'store']
     ]
   );
   // Moderators and admins

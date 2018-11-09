@@ -76,7 +76,9 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
-                        <a href="{{ route('users.index') }}">Пользователи</a>
+                        @role(admin)
+                            <a href="{{ route('users.index') }}">Пользователи</a>
+                        @endrole
                         <a href="{{ route('posts.index') }}">Посты</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
