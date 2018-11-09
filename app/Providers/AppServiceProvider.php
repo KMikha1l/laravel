@@ -32,8 +32,11 @@ class AppServiceProvider extends ServiceProvider
             // Chose the role of the current user
             $userRole = $this->roles[$expression];
 
-            return "<?php
-            if(Auth::user()->role_id <= $userRole): ?>";
+            return "
+                <?php
+                    if(Auth::user()->role_id <= $userRole):
+                ?>
+            ";
         });
 
         /**
@@ -44,9 +47,10 @@ class AppServiceProvider extends ServiceProvider
          */
         Blade::directive('endrole', function($expression) {
             return '<?php
-                else:
-                endif;
-            ?>';
+                    else:
+                    endif;
+                ?>
+            ';
         });
     }
 

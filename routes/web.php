@@ -12,7 +12,8 @@
 */
 
 
-Route::get('/', function (): \Illuminate\View\View {
+Route::get('/', function (): \Illuminate\View\View
+{
     return view('welcome', [
         'users' => App\User::get(),
     ]);
@@ -30,22 +31,35 @@ Route::middleware(['auth'])->group(function ()
   Route::resource('/posts', 'PostController',
     [
       'name' => 'posts',
-      'only' => ['index', 'create', 'store']
+      'only' => [
+        'index',
+        'create',
+        'store',
+      ]
     ]
   );
+
   // Moderators and admins
   Route::resource('/posts', 'PostController',
     [
       'name' => 'posts',
-      'except' => ['destroy', 'index', 'create', 'store'],
+      'except' => [
+        'destroy',
+        'index',
+        'create',
+        'store'
+      ],
       'middleware' => 'role:moder',
     ]
   );
+
   // Only admins
   Route::resource('/posts', 'PostController',
     [
       'name' => 'posts',
-      'only' => ['destroy'],
+      'only' => [
+        'destroy'
+      ],
       'middleware' => 'role:admin',
     ]
   );
