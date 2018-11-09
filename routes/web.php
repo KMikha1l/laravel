@@ -13,11 +13,15 @@
 
 Route::get('/', function () {
     return view('welcome', [
-    	'users' => App\User::get(),
-    	]
-	);
+        'users' => App\User::get(),
+    ]);
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function () {
+  Route::resource('/users', 'UserController', ['name' => 'users']);
+  Route::resource('/posts', 'PostController', ['name' => 'posts']);
+});

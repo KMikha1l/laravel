@@ -74,6 +74,7 @@
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
+                    <a href="{{ route('users.index') }}">Пользователи</a>
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
@@ -87,24 +88,7 @@
             @endif
 
             <div class="content">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">email</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($users as $user)
-                        <tr>
-                          <th scope="row">{{ $user->id }}</th>
-                          <td>{{ $user->name }}</td>
-                          <td>{{ $user->email }}</td>
-                        </tr>
-                    @endforeach
-                  </tbody>
-                </table>
+                <h1>Hello!</h1>
             </div>
         </div>
     </body>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,40 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::group(array('prefix' => 'users'), function()
+{
+
+  Route::put('/', array('uses' => 'UserApiController@store'));
+  Route::put('/{user}', 'UserApiController@update', function(User $user){
+    return $user;
+  });
+
+  Route::get('/', 'UserApiController@index');
+  Route::get('/{user}', 'UserApiController@show', function(User $user){
+    return $user;
+  });
+
+  Route::delete('/{user}', 'UserApiController@destroy', function(User $user){
+    return $user;
+  });
+
+});
+
+Route::group(array('prefix' => 'posts'), function()
+{
+  Route::get('/', 'PostApiController@index');
+  Route::get('/{post}', 'PostApiController@show', function(User $post){
+    return $post;
+  });
+
+  Route::put('/', 'PostApiController@store');
+  Route::put('/{post}', 'PostApiController@update', function(User $post){
+    return $post;
+  });
+
+  Route::delete('/{post}', 'PostApiController@destroy');
+
 });
