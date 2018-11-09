@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', function (): \Illuminate\View\View
 {
     return view('welcome', [
