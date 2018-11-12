@@ -9,6 +9,8 @@ use \Illuminate\View\View;
 
 class UserController extends Controller
 {
+    const ROLE_ID_ADMIN = 1;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,7 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-        if ($request->user()->role_id == 1) {
+        if ($request->user()->role_id == self::ROLE_ID_ADMIN) {
             return view('users.index', [
                 'users' => User::get(),
             ]);
