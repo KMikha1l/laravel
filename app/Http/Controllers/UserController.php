@@ -14,11 +14,17 @@ class UserController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('users.index', [
-            'users' => User::get(),
-        ]);
+        if ($request->user()->role_id == 1) {
+            return view('users.index', [
+                'users' => User::get(),
+            ]);
+        } else {
+            return view('users.index', [
+                'users' => User::where('status', 'activated')->get(),
+            ]);
+        }
     }
 
     /**
@@ -95,10 +101,17 @@ class UserController extends Controller
      * @param  User $user
      * @return RedirectResponse
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user, Request $request): RedirectResponse
     {
-        $user->delete();
+        if ($request->user()->role_id != 1) {
+            $user->status = 'nonactivated';
+            $user->update(['status', $user->status]);
 
-        return redirect()->route('users.index');
+            return redirect()->route('users.index');
+        } else {
+            $user->delete();
+
+            return redirect()->route('users.index');
+        }
     }
 }

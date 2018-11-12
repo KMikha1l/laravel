@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
                 ->on('user_roles')
                 ->onDelete('cascade');
 
+            $table->string('status')->default('nonactivated');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

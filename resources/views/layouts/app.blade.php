@@ -52,7 +52,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('posts.index' )}}">Posts</a>
                             </li>
-                            @role(admin)
+                            @role(moder)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('users.index' )}}">Users</a>
                                 </li>

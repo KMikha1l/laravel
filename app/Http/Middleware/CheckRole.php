@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use \Illuminate\Http\Response;
 use \Illuminate\Http\Request;
+use \Illuminate\Http\RedirectResponse;
 
 class CheckRole
 {
@@ -22,7 +23,7 @@ class CheckRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, string $permission): Response
+    public function handle(Request $request, Closure $next, string $permission): object
     {
         if ($request->user()->role_id > $this->roles[$permission]) {
             return abort('403');

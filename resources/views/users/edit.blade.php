@@ -27,6 +27,19 @@
           @endforeach
         </select>
       </div>
+      @role(admin)
+      <div class="form-group">
+        <label for="formInputUser">Status</label>
+        <select id="formInputUser" name="status" class="form-control">
+          <option value="nonactivated" @if($user->status == 'nonactivated') selected @endif>
+            Nonactivated
+          </option>
+          <option value="activated" @if($user->status == 'activated') selected @endif>
+            Activated
+          </option>
+        </select>
+      </div>
+      @endrole
 
 <!--       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>
