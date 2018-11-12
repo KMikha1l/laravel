@@ -105,7 +105,7 @@ class UserController extends Controller
      */
     public function destroy(User $user, Request $request): RedirectResponse
     {
-        if ($request->user()->role_id != 1) {
+        if ($request->user()->role_id != ROLE_ID_ADMIN) {
             $user->status = 'nonactivated';
             $user->update(['status', $user->status]);
 
