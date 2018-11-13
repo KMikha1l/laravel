@@ -38,8 +38,8 @@ class UserController extends Controller
         return view('users.create', [
             'roles' => UserRole::get(),
             'statuses' => [
-                'activated' => User::USER_STATUS_ACTIVATED,
-                'deactivated' => User::USER_STATUS_DEACTIVATED,
+                'activated' => User::STATUS_ACTIVATED,
+                'deactivated' => User::STATUS_DEACTIVATED,
             ]
         ]);
     }
@@ -84,8 +84,8 @@ class UserController extends Controller
             'user' => $user,
             'roles' => UserRole::get(),
             'statuses' => [
-                'activated' => User::USER_STATUS_ACTIVATED,
-                'deactivated' => User::USER_STATUS_DEACTIVATED,
+                'activated' => User::STATUS_ACTIVATED,
+                'deactivated' => User::STATUS_DEACTIVATED,
             ]
         ]);
     }
@@ -112,8 +112,8 @@ class UserController extends Controller
      */
     public function destroy(User $user, Request $request): RedirectResponse
     {
-        if ($request->user()->role_id != User::ID_ADMIN) {
-            $user->status = User::USER_STATUS_DEACTIVATED;
+        if ($request->user()->role_id != User::ADMINISTRATOR_ID) {
+            $user->status = User::STATUS_DEACTIVATED;
             $user->update(['status', $user->status]);
 
             return redirect()->route('users.index');

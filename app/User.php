@@ -11,8 +11,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const USER_STATUS_DEACTIVATED = 0;
-    const USER_STATUS_ACTIVATED = 1;
+    const STATUS_DEACTIVATED = 0;
+    const STATUS_ACTIVATED = 1;
 
     /**
      * The attributes that are mass assignable.
