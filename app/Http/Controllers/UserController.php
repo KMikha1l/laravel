@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use \App\User;
 use \App\UserRole;
+use \App\Http\Middleware\CheckRole;
 use \Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
@@ -14,11 +15,17 @@ class UserController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('users.index', [
-            'users' => User::get(),
-        ]);
+        if ($request->user()->role_id == CheckRole::ADMINISTRATOR_ID) {
+            return view('users.index', [
+                'users' => User::get(),
+            ]);
+        } else {
+            return view('users.index', [
+                'users' => User::where('status', User::STATUS_ACTIVATED)->get(),
+            ]);
+        }
     }
 
     /**
@@ -28,8 +35,12 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view( 'users.create', [
+        return view('users.create', [
             'roles' => UserRole::get(),
+            'statuses' => [
+                'activated' => User::STATUS_ACTIVATED,
+                'deactivated' => User::STATUS_DEACTIVATED,
+            ]
         ]);
     }
 
@@ -72,6 +83,10 @@ class UserController extends Controller
         return view('users.edit', [
             'user' => $user,
             'roles' => UserRole::get(),
+            'statuses' => [
+                'activated' => User::STATUS_ACTIVATED,
+                'deactivated' => User::STATUS_DEACTIVATED,
+            ]
         ]);
     }
 
@@ -95,10 +110,17 @@ class UserController extends Controller
      * @param  User $user
      * @return RedirectResponse
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user, Request $request): RedirectResponse
     {
-        $user->delete();
+        if ($request->user()->role_id != User::ADMINISTRATOR_ID) {
+            $user->status = User::STATUS_DEACTIVATED;
+            $user->update(['status', $user->status]);
 
-        return redirect()->route('users.index');
+            return redirect()->route('users.index');
+        } else {
+            $user->delete();
+
+            return redirect()->route('users.index');
+        }
     }
 }

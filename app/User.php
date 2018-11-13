@@ -11,6 +11,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const STATUS_DEACTIVATED = 0;
+    const STATUS_ACTIVATED = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'status',
     ];
 
     /**

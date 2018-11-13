@@ -27,6 +27,19 @@
           @endforeach
         </select>
       </div>
+      @role(admin)
+      <div class="form-group">
+        <label for="formInputUser">Status</label>
+        <select id="formInputUser" name="status" class="form-control">
+          <option value="{{ $statuses['deactivated'] }}" @if((int) $user->status === $statuses['deactivated']) selected @endif>
+            Deactivated
+          </option>
+          <option value="{{ $statuses['activated'] }}" @if( (int) $user->status === $statuses['activated']) selected @endif>
+            Activated
+          </option>
+        </select>
+      </div>
+      @endrole
 
 <!--       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>

@@ -20,10 +20,20 @@
             <tr>
               <th scope="row">{{ $user->id }}</th>
               <td>
-                <a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a>
+                <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
+                @if( (int) $user->status === 0)
+                  deactivated
+                @endif
               </td>
               <td>{{ $user->email }}</td>
               <td>
+                @role(admin)
+                  <a href="{{ route('users.edit', $user) }}">
+                    <button class="btn btn-outline-primary">
+                      <i class="fa fa-edit" aria-hidden="true"></i>
+                    </button>
+                  </a>
+                @endrole
                 <form onsubmit="if(!confirm('Удалить пользователя?')){return false;}" class="d-inline-block" action="{{ route('users.destroy', $user) }}" method="post">
                   @csrf
                   @method('delete')
