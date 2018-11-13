@@ -11,7 +11,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const ROLE_ID_ADMIN = 1;
     const USER_STATUS_DEACTIVATED = 0;
     const USER_STATUS_ACTIVATED = 1;
 

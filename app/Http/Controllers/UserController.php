@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use \App\User;
 use \App\UserRole;
+use \App\Http\Middleware\CheckRole;
 use \Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-        if ($request->user()->role_id == User::ROLE_ID_ADMIN) {
+        if ($request->user()->role_id == CheckRole::ADMINISTRATOR_ID) {
             return view('users.index', [
                 'users' => User::get(),
             ]);
@@ -111,7 +112,7 @@ class UserController extends Controller
      */
     public function destroy(User $user, Request $request): RedirectResponse
     {
-        if ($request->user()->role_id != User::ROLE_ID_ADMIN) {
+        if ($request->user()->role_id != User::ID_ADMIN) {
             $user->status = User::USER_STATUS_DEACTIVATED;
             $user->update(['status', $user->status]);
 
