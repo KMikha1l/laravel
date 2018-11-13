@@ -3,11 +3,11 @@
 
 @section('content')
   <form action="{{ route('users.store') }}" method="post">
-      @csrf
-      <div class="form-group">
-          <label for="exampleInputEmail1">Name</label>
-          <input maxlength="255" minlength="5" required="" name="name" type="text" class="form-control" id="exampleInputName" placeholder="Enter your name">
-      </div>
+    @csrf
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input maxlength="255" minlength="5" required="" name="name" type="text" class="form-control" id="exampleInputName" placeholder="Enter your name">
+    </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
       <input maxlength="255" name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -25,10 +25,10 @@
       <div class="form-group">
         <label for="formInputUser">Status</label>
         <select id="formInputUser" name="status" class="form-control">
-          <option value="nonactivated" selected>
+          <option value="{{ $statuses['deactivated'] }}" selected>
             Nonactivated
           </option>
-          <option value="activated" selected>
+          <option value="{{ $statuses['activated'] }}">
             Activated
           </option>
         </select>

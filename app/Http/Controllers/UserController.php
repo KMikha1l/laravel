@@ -9,7 +9,7 @@ use \Illuminate\View\View;
 
 class UserController extends Controller
 {
-    const ROLE_ID_ADMIN = 1;
+
 
     /**
      * Display a listing of the resource.
@@ -18,13 +18,13 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-        if ($request->user()->role_id == self::ROLE_ID_ADMIN) {
+        if ($request->user()->role_id == User::ROLE_ID_ADMIN) {
             return view('users.index', [
                 'users' => User::get(),
             ]);
         } else {
             return view('users.index', [
-                'users' => User::where('status', 'activated')->get(),
+                'users' => User::where('status', 1)->get(),
             ]);
         }
     }
@@ -36,8 +36,12 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view( 'users.create', [
+        return view('users.create', [
             'roles' => UserRole::get(),
+            'statuses' => [
+                'activated' => User::USER_STATUS_ACTIVATED,
+                'deactivated' => User::USER_STATUS_DEACTIVATED,
+            ]
         ]);
     }
 
@@ -80,6 +84,10 @@ class UserController extends Controller
         return view('users.edit', [
             'user' => $user,
             'roles' => UserRole::get(),
+            'statuses' => [
+                'activated' => User::USER_STATUS_ACTIVATED,
+                'deactivated' => User::USER_STATUS_DEACTIVATED,
+            ]
         ]);
     }
 
@@ -105,8 +113,8 @@ class UserController extends Controller
      */
     public function destroy(User $user, Request $request): RedirectResponse
     {
-        if ($request->user()->role_id != ROLE_ID_ADMIN) {
-            $user->status = 'nonactivated';
+        if ($request->user()->role_id != User::ROLE_ID_ADMIN) {
+            $user->status = User::USER_STATUS_DEACTIVATED;
             $user->update(['status', $user->status]);
 
             return redirect()->route('users.index');
