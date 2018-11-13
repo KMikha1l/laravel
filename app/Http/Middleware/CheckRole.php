@@ -14,7 +14,7 @@ class CheckRole
     const USER_ID = 3;
 
     // Roles list
-    public static $roles = [
+    public $roles = [
         'admin' => 1,
         'moder' => 2,
         'user' => 3
@@ -29,7 +29,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $permission): object
     {
-        if ($request->user()->role_id > self::$roles[$permission]) {
+        if ($request->user()->role_id > $this->roles[$permission]) {
             return abort('403');
         }
 
