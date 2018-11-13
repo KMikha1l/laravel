@@ -23,7 +23,7 @@ class UserController extends Controller
             ]);
         } else {
             return view('users.index', [
-                'users' => User::where('status', 1)->get(),
+                'users' => User::where('status', User::STATUS_ACTIVATED)->get(),
             ]);
         }
     }
