@@ -21,6 +21,9 @@
               <th scope="row">{{ $user->id }}</th>
               <td>
                 <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
+                @if($user->status === 'nonactivated')
+                  deactivated
+                @endif
               </td>
               <td>{{ $user->email }}</td>
               <td>
