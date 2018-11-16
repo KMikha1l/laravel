@@ -13,7 +13,7 @@
 
 Route::get('/', function (): \Illuminate\View\View {
     return view('welcome', [
-        'users' => App\User::get(),
+        'users' => App\Models\User::get(),
     ]);
 });
 
@@ -24,17 +24,21 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function () {
   Route::resource('/users', 'UserController', ['middleware' => 'role:moder', 'name' => 'users']);
 
+  Route::resource('/comments', 'PostCommentController', ['name' => 'comments']);
+
   // Free access for all users
   Route::resource(
     '/posts',
     'PostController',
     [
-      'name' => 'posts',
+        'name' => 'posts',
         'only' => [
           'index',
+          'show',
           'create',
           'store',
-        ]
+        ],
+        'middleware' => 'role:user'
     ]
   );
 

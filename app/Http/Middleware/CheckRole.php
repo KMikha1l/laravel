@@ -15,9 +15,9 @@ class CheckRole
 
     // Roles list
     public $roles = [
-        'admin' => 1,
-        'moder' => 2,
-        'user' => 3
+        'admin' => self::ADMINISTRATOR_ID,
+        'moder' => self::MODERATOR_ID,
+        'user' => self::USER_ID,
     ];
 
     /**

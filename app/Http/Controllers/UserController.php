@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use \App\User;
-use \App\UserRole;
+use \App\Models\User;
+use \App\Models\UserRole;
 use \App\Http\Middleware\CheckRole;
 use \Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
@@ -112,7 +112,7 @@ class UserController extends Controller
      */
     public function destroy(User $user, Request $request): RedirectResponse
     {
-        if ($request->user()->role_id != User::ADMINISTRATOR_ID) {
+        if ($request->user()->role_id != CheckRole::ADMINISTRATOR_ID) {
             $user->status = User::STATUS_DEACTIVATED;
             $user->update(['status', $user->status]);
 

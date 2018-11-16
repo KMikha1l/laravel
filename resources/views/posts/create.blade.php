@@ -13,7 +13,11 @@
       <label for="formInputContent">Owner</label>
       <select name="user_id" class="form-control">
         @foreach($users as $user)
-          <option value="{{ $user->id }}">{{ $user->email }}</option>
+          <option value="{{ $user->id }}"
+          @if($user->id === Auth::user()->id)
+            selected
+          @endif
+          >{{ $user->email }}</option>
         @endforeach
       </select>
     </div>

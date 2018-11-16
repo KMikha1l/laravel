@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
+use App\Models\PostComment;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,5 +52,30 @@ Route::group(array('prefix' => 'posts'), function()
   });
 
   Route::delete('/{post}', 'PostApiController@destroy');
+
+});
+
+Route::group([], function()
+{
+    Route::get('comments/', 'PostCommentApiController@index');
+    Route::get(
+      '/posts/{post_id}/comments', 
+      'PostCommentApiController@postComments', 
+      function($post_id)
+      {
+        return $post_id;
+      }
+    );
+
+    Route::get('comments/{comment}', 'PostCommentApiController@show', function(PostComment $comment){
+        return $comment;
+    });
+
+    Route::put('comments/', 'PostCommentApiController@store');
+    Route::put('comments/{comment}', 'PostCommentApiController@update', function(PostComment $comment){
+        return $comment;
+    });
+
+    Route::delete('comments/{comment}', 'PostCommentApiController@destroy');
 
 });
