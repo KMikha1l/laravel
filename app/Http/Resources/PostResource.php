@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Resources;
 
-use \Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 class PostResource extends JsonResource
 {
@@ -11,7 +12,7 @@ class PostResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'id'            => $this->id,

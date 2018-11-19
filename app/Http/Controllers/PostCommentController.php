@@ -18,31 +18,11 @@ class PostCommentController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request): RedirectResponse
     {
         PostComment::create($request->all());
 
         return redirect()->route('posts.show', $request->post_id);
-    }
-
-    public function show(PostComment $comment)
-    {
-        //
-    }
-
-    public function edit(PostComment $comment)
-    {
-        //
-    }
-
-    public function update(Request $request, PostComment $comment)
-    {
-        //
     }
 
     public function destroy(PostComment $comment): RedirectResponse

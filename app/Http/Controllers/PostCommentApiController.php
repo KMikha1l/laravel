@@ -21,7 +21,7 @@ class PostCommentApiController extends Controller
         return PostCommentResource::collection(PostComment::where('post_id', $post_id)->get());
     }
 
-    public function store(Request $request)
+    public function store(Request $request): PostCommentResource
     {
         $comment = PostComment::create([
             'user_id'       => $request->user_id,
@@ -32,18 +32,13 @@ class PostCommentApiController extends Controller
         return new PostCommentResource($comment);
     }
 
-    public function show(PostComment $comment): UserResource
+    public function show(PostComment $comment): PostCommentResource
     {
         return new PostCommentResource($comment);
     }
 
-    public function update(Request $request, PostComment $comment): UserResource
+    public function update(Request $request, PostComment $comment): PostCommentResource
     {
-        // check if currently authenticated user is the owner of the book
-        // if ($request->user()->id !== $comment->user_id) {
-        //     return response()->json(['error' => 'You can only edit your own comments.'], 403);
-        // }
-
         $comment->update($request->all());
 
         return new PostCommentResource($comment);

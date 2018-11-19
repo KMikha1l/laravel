@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::group(array('prefix' => 'users'), function()
 {
 
@@ -59,22 +58,29 @@ Route::group([], function()
 {
     Route::get('comments/', 'PostCommentApiController@index');
     Route::get(
-      '/posts/{post_id}/comments', 
-      'PostCommentApiController@postComments', 
-      function($post_id)
-      {
+      '/posts/{post_id}/comments',
+      'PostCommentApiController@postComments',
+      function(integer $post_id): integer {
         return $post_id;
       }
     );
 
-    Route::get('comments/{comment}', 'PostCommentApiController@show', function(PostComment $comment){
-        return $comment;
-    });
+    Route::get(
+        'comments/{comment}',
+        'PostCommentApiController@show',
+        function(PostComment $comment): PostComment {
+            return $comment;
+        }
+    );
 
     Route::put('comments/', 'PostCommentApiController@store');
-    Route::put('comments/{comment}', 'PostCommentApiController@update', function(PostComment $comment){
-        return $comment;
-    });
+    Route::put(
+        'comments/{comment}',
+        'PostCommentApiController@update',
+        function(PostComment $comment): PostComment {
+            return $comment;
+        }
+    );
 
     Route::delete('comments/{comment}', 'PostCommentApiController@destroy');
 

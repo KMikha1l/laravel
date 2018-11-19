@@ -5,11 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckRole;
 
 class AppServiceProvider extends ServiceProvider
 {
-
-
     /**
      * Bootstrap any application services.
      *
@@ -23,22 +22,14 @@ class AppServiceProvider extends ServiceProvider
          * @param  string  $expression
          * @return string
          */
-        Blade::directive('role', function (string $expression) {
-            // dd($expression);
-            // Create a list of roles
-            $roles = [
-                'admin' => 1,
-                'moder' => 2,
-                'user' => 3,
-            ];
-
-
+        Blade::directive('role', function (string $expression): string {
             // Chose the role of the current user
             // $userRole = $roles[$expression];
+            $currentRole = CheckRole::$roles[$expression];
 
             return "
                 <?php
-                    if (Auth::user()->role_id <= 2):
+                    if (Auth::user()->role_id <= $currentRole):
                 ?>
             ";
         });
@@ -49,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
          * @param  string  $expression
          * @return string
          */
-        Blade::directive('endrole', function($expression) {
+        Blade::directive('endrole', function($expression): string {
             return '<?php
                     endif;
                 ?>
