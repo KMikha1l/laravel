@@ -66,10 +66,10 @@ Route::group([], function()
     );
 
     Route::get(
-        'comments/{comment}',
+        'comments/{comment_id}',
         'PostCommentApiController@show',
-        function(PostComment $comment): PostComment {
-            return $comment;
+        function($comment_id): PostComment {
+            return $comment_id;
         }
     );
 
@@ -77,11 +77,17 @@ Route::group([], function()
     Route::put(
         'comments/{comment}',
         'PostCommentApiController@update',
-        function(PostComment $comment): PostComment {
+        function($comment): integer {
             return $comment;
         }
     );
 
-    Route::delete('comments/{comment}', 'PostCommentApiController@destroy');
+    Route::delete(
+        'comments/{comment}',
+        'PostCommentApiController@destroy',
+        function($comment): integer {
+            return $comment;
+        }
+    );
 
 });

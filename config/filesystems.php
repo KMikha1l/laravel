@@ -64,6 +64,11 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'comments' => [
+            'driver' => 'local',
+            'root' => storage_path('custom_files'),
+        ],
+
     ],
 
 ];

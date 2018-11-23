@@ -23,4 +23,9 @@ class PostComment extends Model
     {
         return $this->belongsTo('App\Models\Post', 'post_id', 'id');
     }
+
+    public static function comentsList()
+    {
+        return self::paginate();
+    }
 }
