@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 
-
 class FileComment implements CommentInterface
 {
     private $comments = [];
@@ -28,17 +27,17 @@ class FileComment implements CommentInterface
         }
     }
 
-    public function __toStting()
+    public function __toStting(): string
     {
         return json_encode($this->comments);
     }
 
-    public function index()
+    public function index(): array
     {
         return $this->comments;
     }
 
-    public function postComments($id)
+    public function postComments($id): array
     {
         $result = [];
         foreach ($this->comments as $k => $v) {
@@ -50,16 +49,17 @@ class FileComment implements CommentInterface
         return $result;
     }
 
-    public function show($comment_id)
+    public function show($comment_id): object
     {
-//        dd($this->comments[$comment_id]);
+        if (!isset($this->comments[$comment_id])) {
+            return abort('404');
+        }
+
         return $this->comments[$comment_id];
     }
 
     public function store(Request $request): PostCommentResource
     {
-        // $var = clone(end($this->comments));
-        // dd(end($this->comments));
         $this->comments[] = clone(end($this->comments));
 
         end($this->comments);
@@ -98,11 +98,9 @@ class FileComment implements CommentInterface
         $this->updateCommentsFile();
     }
 
-    private function updateCommentsFile()
+    private function updateCommentsFile(): void
     {
         $updatedComments = json_encode(['data' => $this->comments]);
-
-        // dd($updatedComments);
 
         Storage::disk('comments')->put('comments.json', $updatedComments);
     }

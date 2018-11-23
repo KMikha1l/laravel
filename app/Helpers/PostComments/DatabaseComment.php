@@ -12,19 +12,23 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class DatabaseComment implements CommentInterface
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return PostCommentResource::collection(PostComment::paginate(15));
     }
 
-    public function postComments($post_id)
+    public function postComments($post_id): AnonymousResourceCollection
     {
         return PostCommentResource::collection(PostComment::where('post_id', $post_id)->get());
     }
 
-    public function show($comment_id)
+    public function show($comment_id): PostComment
     {
         $comment = PostComment::where('id', $comment_id)->get();
+
+        if (!isset($comment[0])) {
+            return abort('404');
+        }
 
         return $comment[0];
     }
