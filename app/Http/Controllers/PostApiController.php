@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use \App\Http\Resources\PostResource;
-use \App\Post;
+use \App\Models\Post;
 use \Illuminate\Http\Request;
 use \Illuminate\Http\Response;
 use \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -17,7 +18,7 @@ class PostApiController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return PostResource::collection(Post::paginate());
+        return PostResource::collection(Post::paginate(10));
     }
 
     /**

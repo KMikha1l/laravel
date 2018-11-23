@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use \App\Models\Post;
 use \Illuminate\Http\Request;
-use \App\User;
+use \App\Models\User;
 use \Illuminate\View\View;
 use \Illuminate\Http\RedirectResponse;
 
@@ -41,7 +41,6 @@ class PostController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd($request->user_id);
         Post::create($request->all());
 
         return redirect()->route('posts.index');
@@ -58,6 +57,7 @@ class PostController extends Controller
         return view('posts.show', [
             'post' => $post,
             'owner' => $post->owner,
+            'comments' => $post->comments,
         ]);
     }
 

@@ -1,11 +1,11 @@
 <?php
-namespace App;
+namespace App\Models;
 
 use \Illuminate\Notifications\Notifiable;
 use \Illuminate\Contracts\Auth\MustVerifyEmail;
 use \Illuminate\Foundation\Auth\User as Authenticatable;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
-use \App\UserRole;
+use \Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -39,6 +39,11 @@ class User extends Authenticatable
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo('App\UserRole', 'role_id', 'id');
+        return $this->belongsTo('App\Models\UserRole', 'role_id', 'id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->HasMany('App\Models\PostComent');
     }
 }

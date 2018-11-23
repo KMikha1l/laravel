@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>MyBlog</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -51,6 +51,9 @@
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('posts.index' )}}">Posts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('comments.index' )}}">Comments</a>
                             </li>
                             @role(moder)
                                 <li class="nav-item">
