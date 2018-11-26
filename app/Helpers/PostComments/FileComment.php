@@ -27,17 +27,13 @@ class FileComment implements CommentInterface
         }
     }
 
-    public function __toStting(): string
+    public function index(): string
     {
-        return json_encode($this->comments);
+        // dd($this->comments);
+        return json_encode(['data' => $this->comments]);
     }
 
-    public function index(): array
-    {
-        return $this->comments;
-    }
-
-    public function postComments($id): array
+    public function postComments($id): string
     {
         $result = [];
         foreach ($this->comments as $k => $v) {
@@ -46,7 +42,7 @@ class FileComment implements CommentInterface
             }
         }
 
-        return $result;
+        return json_encode(['data' => $result]);
     }
 
     public function show($comment_id): object

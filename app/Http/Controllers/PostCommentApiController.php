@@ -15,7 +15,7 @@ use App\Helpers\PostComments\PostCommentFactory;
 class PostCommentApiController extends Controller
 {
     // ++ Returns a full list of all comments
-    public function index()
+    public function index(): string
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
@@ -24,8 +24,8 @@ class PostCommentApiController extends Controller
         return $comments;
     }
 
-    // ++ Returns all post comments
-    public function postComments($post_id)
+    // Returns all post comments
+    public function postComments($post_id): string
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
@@ -36,8 +36,7 @@ class PostCommentApiController extends Controller
         return $comments;
     }
 
-    // ++
-    public function show($comment_id)
+    public function show($comment_id): PostCommentResource
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
@@ -46,7 +45,6 @@ class PostCommentApiController extends Controller
         return new PostCommentResource($currentComment);
     }
 
-    // ++
     public function store(Request $request): PostCommentResource
     {
         $factory = new PostCommentFactory;
@@ -56,7 +54,6 @@ class PostCommentApiController extends Controller
         return new PostCommentResource($comment);
     }
 
-    // +
     public function update(Request $request, $comment): PostCommentResource
     {
         $factory = new PostCommentFactory;
@@ -66,7 +63,6 @@ class PostCommentApiController extends Controller
         return new PostCommentResource($comment);
     }
 
-    // +
     public function destroy($comment): JsonResponse
     {
         $factory = new PostCommentFactory;

@@ -12,17 +12,17 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class DatabaseComment implements CommentInterface
 {
-    public function index(): AnonymousResourceCollection
+    public function index(): string
     {
-        return PostCommentResource::collection(PostComment::paginate(15));
+        return PostComment::get()->toJson();
     }
 
-    public function postComments($post_id): AnonymousResourceCollection
+    public function postComments($post_id): string
     {
-        return PostCommentResource::collection(PostComment::where('post_id', $post_id)->get());
+        return PostComment::where('post_id', $post_id)->get()->toJson();
     }
 
-    public function show($comment_id): PostComment
+    public function show($comment_id): object
     {
         $comment = PostComment::where('id', $comment_id)->get();
 
@@ -51,10 +51,8 @@ class DatabaseComment implements CommentInterface
         return new PostCommentResource($comment);
     }
 
-    public function destroy(PostComment $comment): JsonResponse
+    public function destroy(PostComment $comment): void
     {
         $comment->delete();
-
-        return response()->json(null, 204);
     }
 }
