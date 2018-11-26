@@ -22,14 +22,13 @@ class FileComment implements CommentInterface
         $content = Storage::disk('comments')->get('comments.json');
         $content = json_decode($content);
 
-        foreach ($content->data as $k => $v) {
+        foreach ($content as $k => $v) {
             $this->comments[$v->id] =$v;
         }
     }
 
     public function index(): string
     {
-        // dd($this->comments);
         return json_encode(['data' => $this->comments]);
     }
 
@@ -45,16 +44,16 @@ class FileComment implements CommentInterface
         return json_encode(['data' => $result]);
     }
 
-    public function show($comment_id): object
+    public function show($comment_id): string
     {
         if (!isset($this->comments[$comment_id])) {
-            return abort('404');
+            return json_encode(['data' => 'Comment not found']);
         }
 
-        return $this->comments[$comment_id];
+        return json_encode($this->comments[$comment_id]) ?? '';
     }
 
-    public function store(Request $request): PostCommentResource
+    public function store(Request $request): string
     {
         $this->comments[] = clone(end($this->comments));
 
@@ -70,12 +69,12 @@ class FileComment implements CommentInterface
 
         $this->updateCommentsFile();
 
-        return new PostCommentResource($this->comments[$newId]);
+        return json_encode($this->comments[$newId]);
     }
 
-    public function update(Request $request, $comment): PostCommentResource
+    public function update(Request $request, int $id): string
     {
-        $comment = $this->comments[$comment];
+        $comment = $this->comments[$id];
 
         $comment->user_id = $request->user_id;
         $comment->post_id = $request->post_id;
@@ -84,19 +83,20 @@ class FileComment implements CommentInterface
 
         $this->updateCommentsFile();
 
-        return new PostCommentResource($comment);
+        return json_encode($comment);
     }
 
-    public function destroy($comment): void
+    public function destroy(int $id): JsonResponse
     {
-        unset($this->comments[$comment]);
-
+        unset($this->comments[$id]);
         $this->updateCommentsFile();
+
+        return response()->json(null, 204);
     }
 
     private function updateCommentsFile(): void
     {
-        $updatedComments = json_encode(['data' => $this->comments]);
+        $updatedComments = json_encode($this->comments);
 
         Storage::disk('comments')->put('comments.json', $updatedComments);
     }

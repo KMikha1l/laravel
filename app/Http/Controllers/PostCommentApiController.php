@@ -14,7 +14,7 @@ use App\Helpers\PostComments\PostCommentFactory;
 
 class PostCommentApiController extends Controller
 {
-    // ++ Returns a full list of all comments
+    // Returns a full list of all comments
     public function index(): string
     {
         $factory = new PostCommentFactory;
@@ -36,39 +36,41 @@ class PostCommentApiController extends Controller
         return $comments;
     }
 
-    public function show($comment_id): PostCommentResource
+    public function show($comment_id): string
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
         $currentComment = $factory->show($comment_id);
 
-        return new PostCommentResource($currentComment);
+        if (empty($currentComment)) { return 'Comment not found';}
+
+        return $currentComment;
     }
 
-    public function store(Request $request): PostCommentResource
+    public function store(Request $request): string
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
         $comment = $factory->store($request);
 
-        return new PostCommentResource($comment);
+        return $comment;
     }
 
-    public function update(Request $request, $comment): PostCommentResource
+    public function update(Request $request, int $id): string
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
-        $comment = $factory->update($request, $comment);
+        $comment = $factory->update($request, $id);
 
-        return new PostCommentResource($comment);
+        return $comment;
     }
 
-    public function destroy($comment): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $factory = new PostCommentFactory;
         $factory = $factory->createObject();
-        $comment = $factory->destroy($comment);
+        $result = $factory->destroy($id);
 
-        return response()->json(null, 204);
+        return $result;
     }
 }

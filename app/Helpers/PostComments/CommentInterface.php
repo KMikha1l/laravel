@@ -5,6 +5,7 @@ namespace App\Helpers\PostComments;
 use App\Models\PostComment;
 use App\Http\Resources\PostCommentResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 interface CommentInterface
 {
@@ -12,17 +13,17 @@ interface CommentInterface
     public function index(): string;
 
     // Comments for current post_id
-    public function postComments($id): string;
+    public function postComments(int $id): string;
 
     // Comment by id
-    public function show($comment_id): object;
+    public function show(int $comment_id): string;
 
     // Saving new comment
-    public function store(Request $request): PostCommentResource;
+    public function store(Request $request): string;
 
     // Updating current comment
-    public function update(Request $request, PostComment $comment): PostCommentResource;
+    public function update(Request $request, int $id): string;
 
     // Deleting current comment
-    public function destroy(PostComment $comment): void;
+    public function destroy(int $id): JsonResponse;
 }
