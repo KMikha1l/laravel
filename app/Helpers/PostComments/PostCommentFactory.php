@@ -15,7 +15,7 @@ class PostCommentFactory
     ];
 
     // creating a new factory
-    public function createObject(): object
+    public function createObject(): CommentInterface
     {
         $this->config = Config::get('app.comments_storage');
         $className = $this->factories[$this->config];

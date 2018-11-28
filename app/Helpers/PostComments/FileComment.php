@@ -4,16 +4,12 @@ namespace App\Helpers\PostComments;
 
 use App\Helpers\PostComments\CommentInterface;
 use App\Helpers\PostComments\PostCommentFactory;
-
 use App\Models\PostComment;
-// use App\Http\Resources\PostCommentResource;
-// use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use stdClass;
-
 use Illuminate\Support\Facades\Storage;
 
 class FileComment implements CommentInterface

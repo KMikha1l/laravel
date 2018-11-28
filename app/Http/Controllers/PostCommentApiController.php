@@ -7,9 +7,7 @@ use App\Http\Resources\PostCommentResource;
 use App\Models\PostComment;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
-
 use Illuminate\Support\Facades\Storage;
-
 use App\Helpers\PostComments\PostCommentFactory;
 
 class PostCommentApiController extends Controller
@@ -18,8 +16,8 @@ class PostCommentApiController extends Controller
     public function index(): string
     {
         $factory = new PostCommentFactory;
-        $factory = $factory->createObject();
-        $comments = $factory->index();
+        $model = $factory->createObject();
+        $comments = $model->index();
 
         return $comments;
     }
@@ -28,10 +26,12 @@ class PostCommentApiController extends Controller
     public function postComments($post_id): string
     {
         $factory = new PostCommentFactory;
-        $factory = $factory->createObject();
-        $comments = $factory->postComments($post_id);
+        $model = $factory->createObject();
+        $comments = $model->postComments($post_id);
 
-        if (empty($comments)) { return 'Comments not found';}
+        if (empty($comments)) {
+            return 'Comments not found';
+        }
 
         return $comments;
     }
@@ -39,10 +39,12 @@ class PostCommentApiController extends Controller
     public function show($comment_id): string
     {
         $factory = new PostCommentFactory;
-        $factory = $factory->createObject();
-        $currentComment = $factory->show($comment_id);
+        $model = $factory->createObject();
+        $currentComment = $model->show($comment_id);
 
-        if (empty($currentComment)) { return 'Comment not found';}
+        if (empty($currentComment)) {
+            return 'Comment not found';
+        }
 
         return $currentComment;
     }
@@ -50,8 +52,8 @@ class PostCommentApiController extends Controller
     public function store(Request $request): string
     {
         $factory = new PostCommentFactory;
-        $factory = $factory->createObject();
-        $comment = $factory->store($request);
+        $model = $factory->createObject();
+        $comment = $model->store($request);
 
         return $comment;
     }
@@ -59,8 +61,8 @@ class PostCommentApiController extends Controller
     public function update(Request $request, int $id): string
     {
         $factory = new PostCommentFactory;
-        $factory = $factory->createObject();
-        $comment = $factory->update($request, $id);
+        $model = $factory->createObject();
+        $comment = $model->update($request, $id);
 
         return $comment;
     }
@@ -68,8 +70,8 @@ class PostCommentApiController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $factory = new PostCommentFactory;
-        $factory = $factory->createObject();
-        $result = $factory->destroy($id);
+        $model = $factory->createObject();
+        $result = $model->destroy($id);
 
         return $result;
     }
