@@ -6,70 +6,62 @@ use App\Helpers\PostComments\CommentInterface;
 use App\Helpers\PostComments\PostCommentFactory;
 
 use App\Models\PostComment;
-use App\Http\Resources\PostCommentResource;
+// use App\Http\Resources\PostCommentResource;
+// use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
+use stdClass;
+
 use Illuminate\Support\Facades\Storage;
 
 class FileComment implements CommentInterface
 {
-    private $comments = [];
+    private $comments;
+    private $model;
 
     public function __construct()
     {
-        $content = Storage::disk('comments')->get('comments.json');
-        $content = json_decode($content);
-
-        foreach ($content as $k => $v) {
-            $this->comments[$v->id] =$v;
-        }
+        $fileContent = Storage::disk('comments')->get('comments.json');
+        $jsonComments = json_decode($fileContent);
+        $this->comments = collect($jsonComments);
     }
 
     public function index(): string
     {
-        return json_encode(['data' => $this->comments]);
+        return $this->comments->toJson();
     }
 
-    public function postComments($id): string
+    public function postComments($post_id): string
     {
-        $result = [];
-        foreach ($this->comments as $k => $v) {
-            if ($v->post_id == $id) {
-                $result[] = $v;
-            }
-        }
-
-        return json_encode(['data' => $result]);
+        return $this->comments->where('post_id', $post_id)->toJson();
     }
 
-    public function show($comment_id): string
+    public function show($id): string
     {
-        if (!isset($this->comments[$comment_id])) {
-            return json_encode(['data' => 'Comment not found']);
-        }
-
-        return json_encode($this->comments[$comment_id]) ?? '';
+        return $this->comments->where('id', $id)->toJson();
     }
 
     public function store(Request $request): string
     {
-        $this->comments[] = clone(end($this->comments));
+        $lastId = $this->comments->max('id');
+        $lastId++;
+        $id = $lastId;
 
-        end($this->comments);
-        $newId = key($this->comments);
+        $comment = new stdClass;
+        $comment->id = $id;
+        $comment->user_id = $request->user_id;
+        $comment->post_id = $request->post_id;
+        $comment->text = $request->text;
 
-        $this->comments[$newId]->id = $newId;
-        $this->comments[$newId]->user_id = $request->user_id;
-        $this->comments[$newId]->post_id = $request->post_id;
-        $this->comments[$newId]->text = $request->text;
-        $this->comments[$newId]->created_at = Carbon::now();
-        $this->comments[$newId]->updated_at = Carbon::now();
+        $comment->created_at = Carbon::now();
+        $comment->updated_at = Carbon::now();
+
+        $this->comments->push($comment);
 
         $this->updateCommentsFile();
-
-        return json_encode($this->comments[$newId]);
+        return json_encode($this->comments->last());
     }
 
     public function update(Request $request, int $id): string
@@ -80,7 +72,6 @@ class FileComment implements CommentInterface
         $comment->post_id = $request->post_id;
         $comment->text = $request->text;
         $comment->updated_at = Carbon::now();
-
         $this->updateCommentsFile();
 
         return json_encode($comment);
@@ -96,7 +87,7 @@ class FileComment implements CommentInterface
 
     private function updateCommentsFile(): void
     {
-        $updatedComments = json_encode($this->comments);
+        $updatedComments = $this->comments->toJson();
 
         Storage::disk('comments')->put('comments.json', $updatedComments);
     }
