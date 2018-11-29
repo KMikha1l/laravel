@@ -18,9 +18,9 @@ class DatabaseComment implements CommentInterface
         return PostComment::get()->toJson();
     }
 
-    public function postComments(int $post_id): string
+    public function postComments(int $postId): string
     {
-        $comments = PostComment::where('post_id', $post_id)->get()->toJson();
+        $comments = PostComment::where('post_id', $postId)->get()->toJson();
         if (!empty($comments)) {
             return json_encode(['data' => 'Comment not found']);
         }

@@ -41,9 +41,7 @@ class FileComment implements CommentInterface
 
     public function store(Request $request): string
     {
-        $lastId = $this->comments->max('id');
-        $lastId++;
-        $id = $lastId;
+        $id = ++$this->comments->max('id');
 
         $comment = new stdClass;
         $comment->id = $id;

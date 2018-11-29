@@ -13,7 +13,7 @@ interface CommentInterface
     public function index(): string;
 
     // Comments for current post_id
-    public function postComments(int $post_id): string;
+    public function postComments(int $postId): string;
 
     // Comment by id
     public function show(int $id): string;
