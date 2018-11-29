@@ -4,15 +4,15 @@ namespace App\Helpers\PostComments;
 
 use App\Helpers\PostComments\CommentInterface;
 use App\Helpers\PostComments\PostCommentFactory;
-use App\Models\PostComment;
+use App\Helpers\PostComments\Comment;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use stdClass;
+// use stdClass;
 use Illuminate\Support\Facades\Storage;
 
-class FileComment implements CommentInterface
+
+class FileComment extends Comment implements CommentInterface
 {
     private $comments;
     private $model;
@@ -41,9 +41,9 @@ class FileComment implements CommentInterface
 
     public function store(Request $request): string
     {
-        $id = ++$this->comments->max('id');
+        $id = ($this->comments->max('id') + 1);
 
-        $comment = new stdClass;
+        $comment = new Comment;
         $comment->id = $id;
         $comment->user_id = $request->user_id;
         $comment->post_id = $request->post_id;
@@ -52,7 +52,7 @@ class FileComment implements CommentInterface
         $comment->created_at = Carbon::now();
         $comment->updated_at = Carbon::now();
 
-        $this->comments->push($comment);
+        $this->comments->push(get_object_vars($comment));
 
         $this->updateCommentsFile();
         return json_encode($this->comments->last());
