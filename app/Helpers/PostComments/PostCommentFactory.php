@@ -20,10 +20,12 @@ class PostCommentFactory
         $this->config = Config::get('app.comments_storage');
         $className = self::FACTORIES[$this->config];
         switch ($className) {
-            case "DatabaseComment" : return new DatabaseComment;
+            case "DatabaseComment" :
+            return new DatabaseComment;
                 break;
 
-            case "FileComment" : return new FileComment;
+            case "FileComment" :
+                return new FileComment;
                 break;
 
             default: return new FileComment;
