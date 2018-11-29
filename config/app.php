@@ -224,7 +224,7 @@ return [
 
     ],
 
-    // comments storage place (File or DB)
-    'comments_storage' => 'File',
+    // comments storage place (FILE or DB)
+    'comments_storage' => 'FILE',
 
 ];

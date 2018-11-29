@@ -9,16 +9,16 @@ use App\Helpers\PostComments\FileComment;
 class PostCommentFactory
 {
     private $config;
-    private $factories = [
+    const FACTORIES = [
         'DB' => 'DatabaseComment',
-        'File' => 'FileComment',
+        'FILE' => 'FileComment',
     ];
 
     // creating a new factory
     public function createObject(): CommentInterface
     {
         $this->config = Config::get('app.comments_storage');
-        $className = $this->factories[$this->config];
+        $className = self::FACTORIES[$this->config];
         switch ($className) {
             case "DatabaseComment" : return new DatabaseComment;
                 break;
