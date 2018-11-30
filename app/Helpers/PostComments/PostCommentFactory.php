@@ -28,7 +28,8 @@ class PostCommentFactory
                 return new FileComment;
                 break;
 
-            default: return new FileComment;
+            default:
+                return new FileComment;
         }
     }
 }
