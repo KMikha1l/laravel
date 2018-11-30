@@ -5,49 +5,74 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostCommentResource;
 use App\Models\PostComment;
-use \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use \Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\PostComments\PostCommentFactory;
 
 class PostCommentApiController extends Controller
 {
-
-    public function index(): AnonymousResourceCollection
+    // Returns a full list of all comments
+    public function index(): string
     {
-        return PostCommentResource::collection(PostComment::paginate(10));
+        $factory = new PostCommentFactory;
+        $model = $factory->createObject();
+        $comments = $model->index();
+
+        return $comments;
     }
 
-    public function postComments($post_id): AnonymousResourceCollection
+    // Returns all post comments
+    public function postComments($post_id): string
     {
-        return PostCommentResource::collection(PostComment::where('post_id', $post_id)->get());
+        $factory = new PostCommentFactory;
+        $model = $factory->createObject();
+        $comments = $model->postComments($post_id);
+
+        if (empty($comments)) {
+            return 'Comments not found';
+        }
+
+        return $comments;
     }
 
-    public function store(Request $request): PostCommentResource
+    public function show($comment_id): string
     {
-        $comment = PostComment::create([
-            'user_id'       => $request->user_id,
-            'post_id'       => $request->post_id,
-            'text'          => $request->text,
-        ]);
+        $factory = new PostCommentFactory;
+        $model = $factory->createObject();
+        $currentComment = $model->show($comment_id);
 
-        return new PostCommentResource($comment);
+        if (empty($currentComment)) {
+            return 'Comment not found';
+        }
+
+        return $currentComment;
     }
 
-    public function show(PostComment $comment): PostCommentResource
+    public function store(Request $request): string
     {
-        return new PostCommentResource($comment);
+        $factory = new PostCommentFactory;
+        $model = $factory->createObject();
+        $comment = $model->store($request);
+
+        return $comment;
     }
 
-    public function update(Request $request, PostComment $comment): PostCommentResource
+    public function update(Request $request, int $id): string
     {
-        $comment->update($request->all());
+        $factory = new PostCommentFactory;
+        $model = $factory->createObject();
+        $comment = $model->update($request, $id);
 
-        return new PostCommentResource($comment);
+        return $comment;
     }
 
-    public function destroy(PostComment $comment): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $comment->delete();
+        $factory = new PostCommentFactory;
+        $model = $factory->createObject();
+        $result = $model->destroy($id);
 
-        return response()->json(null, 204);
+        return $result;
     }
 }
