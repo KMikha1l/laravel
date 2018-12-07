@@ -2,9 +2,6 @@
 
 namespace App\Helpers\PostComments;
 
-use App\Helpers\PostComments\CommentInterface;
-use App\Helpers\PostComments\PostCommentFactory;
-use App\Helpers\PostComments\Comment;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
