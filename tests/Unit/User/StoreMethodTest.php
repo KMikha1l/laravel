@@ -17,7 +17,6 @@ class StoreMethodTest extends TestCase
      * @return void
      */
 
-
     public function testCreate()
     {
         Artisan::call('db:seed');
@@ -29,33 +28,29 @@ class StoreMethodTest extends TestCase
              'password' => bcrypt(12345),
          ];
 
-         // Creating new user
-         $user = User::create($data);
-         $id = $user->id;
+        // Creating new user
+        $user = User::create($data);
 
-         $this->assertTrue(
-             $user->name === $data['name'] &&
-             $user->email === $data['email'] &&
-             $user->role_id === $data['role_id'] &&
-             $user->password === $data['password']
-         );
+        $this->assertEquals($user->name, $data['name']);
+        $this->assertEquals($user->email, $data['email']);
+        $this->assertEquals($user->role_id, $data['role_id']);
+
     }
 
     public function testSelect()
     {
-        $this->testCreate();
-        $user = User::first()->toArray();
+        $this->startDatabaseData();
+        $user = User::where('id', 1)->first();
 
-        $this->assertContains('Admin', $user);
-        $this->assertContains('admin@email.com', $user);
-        $this->assertTrue(1 === $user['role_id']);
-        $this->assertTrue(1 === $user['status']);
-
+        $this->assertEquals('Admin', $user->name);
+        $this->assertEquals('admin@email.com', $user->email);
+        $this->assertEquals(1, $user->status);
+        $this->assertEquals(1, $user->role_id);
     }
 
     public function testUpdate()
     {
-        $this->testCreate();
+        $this->startDatabaseData();
         $user = User::first();
 
         $user->name = 'NewName';
@@ -64,20 +59,39 @@ class StoreMethodTest extends TestCase
         $user->password = bcrypt('newPassword');
         $user->save($user->toArray());
 
-        $user = $user->toArray();
-        $this->assertContains('NewName', $user);
-        $this->assertContains('newEmail@email.com', $user);
-        $this->assertContains(3 , $user);
+        $this->assertEquals($user->name, 'NewName');
+        $this->assertEquals($user->email, 'newEmail@email.com');
+        $this->assertEquals($user->role_id, 3);
     }
 
     public function testDelete()
     {
-        $this->testCreate();
+        $this->startDatabaseData();
 
         $user = User::first();
         $id = $user->id;
 
         $user->delete();
         $this->assertTrue(empty(User::where('id', $id)->first()));
+    }
+
+    /**
+     * Creating begin data for update,
+     * select and delete methods
+     * @return mixed
+     */
+    public function startDatabaseData()
+    {
+        Artisan::call('db:seed');
+
+        $data = [
+            'name' => 'TestUser',
+            'email' => 'testEmail@user.com',
+            'role_id' => 1,
+            'password' => bcrypt(12345),
+        ];
+
+        // Creating new user
+        return User::create($data);
     }
 }
