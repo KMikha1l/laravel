@@ -54,7 +54,6 @@ class UserController extends Controller
     {
         $user = new User;
         $request->password = bcrypt($request->password);
-        // dd($request->all());
         $user::create($request->all());
 
         return redirect()->route('users.index');
