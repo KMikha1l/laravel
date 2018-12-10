@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\User;
+namespace Tests\Unit\App\Models;
 
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 
-class StoreMethodTest extends TestCase
+class UserModelTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -39,7 +39,7 @@ class StoreMethodTest extends TestCase
 
     public function testSelect()
     {
-        $this->startDatabaseData();
+        $this->initialData();
         $user = User::where('id', 1)->first();
 
         $this->assertEquals('Admin', $user->name);
@@ -50,7 +50,7 @@ class StoreMethodTest extends TestCase
 
     public function testUpdate()
     {
-        $this->startDatabaseData();
+        $this->initialData();
         $user = User::first();
 
         $user->name = 'NewName';
@@ -66,7 +66,7 @@ class StoreMethodTest extends TestCase
 
     public function testDelete()
     {
-        $this->startDatabaseData();
+        $this->initialData();
 
         $user = User::first();
         $id = $user->id;
@@ -80,7 +80,7 @@ class StoreMethodTest extends TestCase
      * select and delete methods
      * @return mixed
      */
-    public function startDatabaseData()
+    public function initialData()
     {
         Artisan::call('db:seed');
 
