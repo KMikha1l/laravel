@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Helpers\PostComments;
+namespace App\Models\PostComment;
 
 use Illuminate\Support\Facades\Config;
-use App\Helpers\PostComments\DatabaseComment;
-use App\Helpers\PostComments\FileComment;
+use App\Models\PostComment\DatabaseComment;
+use App\Models\PostComment\FileComment;
 
 class PostCommentFactory
 {
