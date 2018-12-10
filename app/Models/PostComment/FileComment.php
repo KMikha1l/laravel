@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Helpers\PostComments;
+namespace App\Models\PostComment;
 
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-// use stdClass;
 use Illuminate\Support\Facades\Storage;
 
 

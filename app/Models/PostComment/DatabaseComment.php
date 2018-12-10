@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Helpers\PostComments;
+namespace App\Models\PostComment;
 
-use App\Helpers\PostComments\CommentInterface;
-use App\Helpers\PostComments\PostCommentFactory;
-use App\Models\PostComment;
-use App\Http\Resources\PostCommentResource;
+use App\Models\Post;
+use App\Models\PostComment\CommentInterface;
+use App\Models\PostComment\PostCommentFactory;
+use App\Models\PostComment\PostComment;
+//use App\Models\PostComment\PostCommentResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -19,9 +20,11 @@ class DatabaseComment implements CommentInterface
 
     public function postComments(int $postId): string
     {
-        $comments = PostComment::where('post_id', $postId)->get()->toJson();
-        if (!empty($comments)) {
+        $post = Post::where('id', $postId)->first();
+        if ($post === null) {
             return json_encode(['data' => 'Comment not found']);
+        } elseif ($post->comments) {
+
         }
 
         return $comments;
