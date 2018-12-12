@@ -15,26 +15,25 @@ class DatabaseComment implements CommentInterface
 {
     public function index(): string
     {
-        return PostComment::get()->toJson();
+        return PostComment::all()->toJson();
     }
 
     public function postComments(int $postId): string
     {
         $post = Post::where('id', $postId)->first();
-        if ($post === null) {
-            return json_encode(['data' => 'Comment not found']);
-        } elseif ($post->comments) {
 
+        if (empty($post) or empty($post->comments->toArray())) {
+            return json_encode(['data' => 'Comment not found']);
         }
 
-        return $comments;
+        return $post->comments;
     }
 
     public function show(int $id): string
     {
-        $comment = PostComment::where('id', $id)->get()->toJson();
+        $comment = PostComment::where('id', $id)->first()->toJson();
 
-        if (!empty($comment)) {
+        if (empty($comment)) {
             return json_encode(['data' => 'Comment not found']);
         }
 
@@ -55,9 +54,9 @@ class DatabaseComment implements CommentInterface
     public function update(Request $request, int $id): string
     {
         $comment = PostComment::where('id', $id)->first();
-        $comment->update($request->all());
+        $result = $comment->update($request->all());
 
-        return json_encode($comment);
+        return json_encode($result);
     }
 
     public function destroy(int $id): JsonResponse
