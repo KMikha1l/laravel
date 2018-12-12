@@ -12,10 +12,11 @@ class FileComment extends Comment implements CommentInterface
 {
     private $comments;
     private $model;
+    public static $storagePath = 'comments.json';
 
     public function __construct()
     {
-        $fileContent = Storage::disk('comments')->get('comments.json');
+        $fileContent = Storage::disk('comments')->get(self::$storagePath);
         $jsonComments = json_decode($fileContent);
         $this->comments = collect($jsonComments);
     }
@@ -25,14 +26,14 @@ class FileComment extends Comment implements CommentInterface
         return $this->comments->toJson();
     }
 
-    public function postComments($post_id): string
+    public function postComments(int $post_id): string
     {
         return $this->comments->where('post_id', $post_id)->toJson();
     }
 
-    public function show($id): string
+    public function show(int $id): string
     {
-        return $this->comments->where('id', $id)->toJson();
+        return $this->comments->where('id', 1)->toJson();
     }
 
     public function store(Request $request): string
@@ -70,7 +71,7 @@ class FileComment extends Comment implements CommentInterface
     public function destroy(int $id): JsonResponse
     {
         unset($this->comments[$id]);
-        $this->updateCommentsFile();
+//        $this->updateCommentsFile();
 
         return response()->json(null, 204);
     }
@@ -79,6 +80,6 @@ class FileComment extends Comment implements CommentInterface
     {
         $updatedComments = $this->comments->toJson();
 
-        Storage::disk('comments')->put('comments.json', $updatedComments);
+        Storage::disk('comments')->put(self::$storagePath, $updatedComments);
     }
 }
