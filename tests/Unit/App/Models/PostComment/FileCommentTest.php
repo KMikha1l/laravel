@@ -143,7 +143,6 @@ class FileCommentTest extends TestCase
         }    
     ';
 
-
         // Replacing work file via test file
         FileComment::$storagePath = 'testComments.json';
 
