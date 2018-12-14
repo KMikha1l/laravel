@@ -82,6 +82,7 @@ class UserModelTest extends TestCase
      */
     public function initialData()
     {
+        Artisan::call('config:cache');
         Artisan::call('db:seed');
 
         $data = [
