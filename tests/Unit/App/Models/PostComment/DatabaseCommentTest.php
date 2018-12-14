@@ -7,7 +7,6 @@ use App\Models\PostComment\PostComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DatabaseCommentTest extends TestCase
@@ -31,7 +30,6 @@ class DatabaseCommentTest extends TestCase
         $this->assertEquals($comments[0]->text, 'comment #1');
         $this->assertEquals($comments[0]->created_at, '2018-12-07 15:13:25');
         $this->assertEquals($comments[0]->updated_at, '2018-12-07 15:13:25');
-
     }
 
     public function testPostComments()
@@ -49,7 +47,6 @@ class DatabaseCommentTest extends TestCase
 
         $comment = $comments->show(1);
 
-
         $this->assertEquals(json_decode($comment)->id, 1);
         $this->assertEquals(json_decode($comment)->user_id, 1);
         $this->assertEquals(json_decode($comment)->post_id, 1);
@@ -66,7 +63,6 @@ class DatabaseCommentTest extends TestCase
         $request->post_id = 1;
         $request->user_id = 1;
         $request->text = 'Just comment text';
-//        dd($request);
 
         $result = $comments->store($request);
         $this->assertEquals(json_decode($result)->post_id, 1);
@@ -74,9 +70,6 @@ class DatabaseCommentTest extends TestCase
         $this->assertEquals(json_decode($result)->text, 'Just comment text');
     }
 
-    /**
-     *
-     */
     public function testUpdate()
     {
         $comments = $this->initialData();
@@ -86,7 +79,7 @@ class DatabaseCommentTest extends TestCase
         $request->merge(['user_id' => 1]);
         $request->merge(['text' => 'Just comment text']);
 
-        $result = $comments->update($request, 1);
+        $comments->update($request, 1);
         $updatedComment = PostComment::where('id', 1)->first();
 
         $this->assertEquals($updatedComment->post_id, 1);
@@ -98,7 +91,7 @@ class DatabaseCommentTest extends TestCase
     {
         $comments = $this->initialData();
 
-        $result = $comments->destroy(1);
+        $comments->destroy(1);
 
         $deletedComment = PostComment::where('id', 1)->first();
         $this->assertNull($deletedComment);
@@ -106,7 +99,6 @@ class DatabaseCommentTest extends TestCase
 
     public function initialData()
     {
-//        calling seeders
         Artisan::call('db:seed');
 
         return $comments = new DatabaseComment;

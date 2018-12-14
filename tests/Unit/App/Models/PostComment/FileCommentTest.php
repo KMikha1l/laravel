@@ -5,13 +5,11 @@ namespace Tests\Unit\App\Models\PostComment;
 use App\Models\PostComment\FileComment;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use ReflectionProperty;
 use Tests\TestCase;
 use Carbon\Carbon;
 
 class FileCommentTest extends TestCase
 {
-
     private static $data;
 
 
@@ -19,8 +17,6 @@ class FileCommentTest extends TestCase
     public function testIndex()
     {
         $comments = $this->initialData();
-//        dd(self::$data);
-//        dd(json_decode(self::$data));
         $this->assertEquals(json_decode($comments->index()), json_decode(self::$data));
     }
 
