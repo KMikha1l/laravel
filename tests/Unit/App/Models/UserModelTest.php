@@ -2,9 +2,7 @@
 
 namespace Tests\Unit\App\Models;
 
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 
@@ -19,7 +17,7 @@ class UserModelTest extends TestCase
 
     public function testCreate()
     {
-        Artisan::call('db:seed');
+//        Artisan::call('db:seed');
 
          $data = [
              'name' => 'TestUser',
@@ -66,12 +64,10 @@ class UserModelTest extends TestCase
 
     public function testDelete()
     {
-        $this->initialData();
+        $newUser = $this->initialData();
+        $id = $newUser->id;
+        $newUser->delete();
 
-        $user = User::first();
-        $id = $user->id;
-
-        $user->delete();
         $this->assertTrue(empty(User::where('id', $id)->first()));
     }
 
@@ -82,12 +78,9 @@ class UserModelTest extends TestCase
      */
     public function initialData()
     {
-//        Artisan::call('config:cache');
-        Artisan::call('db:seed');
-
         $data = [
             'name' => 'TestUser',
-            'email' => 'testEmail@user.com',
+            'email' => 'testEmail' . rand(100, 999) . '@user.com',
             'role_id' => 1,
             'password' => bcrypt(12345),
         ];

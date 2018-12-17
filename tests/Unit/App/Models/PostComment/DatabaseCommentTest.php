@@ -5,7 +5,6 @@ namespace Tests\Unit\App\Models\PostComment;
 use App\Models\PostComment\DatabaseComment;
 use App\Models\PostComment\PostComment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -23,6 +22,7 @@ class DatabaseCommentTest extends TestCase
         $comments->index();
 
         $comments = json_decode($comments->index());
+//        dd(Config::get('database.default'));
         $this->assertCount(2, $comments);
         $this->assertEquals($comments[0]->id, 1);
         $this->assertEquals($comments[0]->user_id, 1);
@@ -36,9 +36,9 @@ class DatabaseCommentTest extends TestCase
     {
         $comments = $this->initialData();
 
-        $this->assertCount(2, json_decode($comments->postComments(1)));
+//        $this->assertCount(2, json_decode($comments->postComments(1)));
+        $this->assertEquals($comments->postComments(0), '{"data":"Comment not found"}');
         $this->assertEquals($comments->postComments(2), '{"data":"Comment not found"}');
-        $this->assertEquals($comments->postComments(3), '{"data":"Comment not found"}');
     }
 
     public function testShow()
@@ -100,7 +100,7 @@ class DatabaseCommentTest extends TestCase
     public function initialData()
     {
 //        Artisan::call('config:cache');
-        Artisan::call('db:seed');
+//        Artisan::call('db:seed');
 
         return $comments = new DatabaseComment;
     }

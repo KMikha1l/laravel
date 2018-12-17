@@ -3,6 +3,7 @@
 namespace Tests\Unit\App\Models\PostComment;
 
 use App\Models\PostComment\FileComment;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Tests\TestCase;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 
 class FileCommentTest extends TestCase
 {
+    use RefreshDatabase;
     private static $data;
 
 
@@ -31,7 +33,7 @@ class FileCommentTest extends TestCase
     public function testShow()
     {
         $comments = $this->initialData();
-        $obj = '1';
+        $obj = 1;
 
         $comment = json_decode($comments->show(1))->{$obj};
 
