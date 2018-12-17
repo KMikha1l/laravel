@@ -44,7 +44,6 @@ class DatabaseCommentTest extends TestCase
     public function testShow()
     {
         $comments = $this->initialData();
-
         $comment = $comments->show(1);
 
         $this->assertEquals(json_decode($comment)->id, 1);
