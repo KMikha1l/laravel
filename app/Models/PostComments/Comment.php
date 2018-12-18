@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\PostComment;
+namespace App\Models\PostComments;
 
 class Comment
 {

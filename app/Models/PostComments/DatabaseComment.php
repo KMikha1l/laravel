@@ -1,15 +1,10 @@
 <?php
 
-namespace App\Models\PostComment;
+namespace App\Models\PostComments;
 
 use App\Models\Post;
-use App\Models\PostComment\CommentInterface;
-use App\Models\PostComment\PostCommentFactory;
-use App\Models\PostComment\PostComment;
-//use App\Models\PostComment\PostCommentResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class DatabaseComment implements CommentInterface
 {
