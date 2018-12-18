@@ -17,10 +17,11 @@ class DatabaseComment implements CommentInterface
     {
         $post = Post::where('id', $postId)->first();
         if ($post === null) {
+            return json_encode(['data' => 'Post not found']);
+        } elseif (!$post->comments) {
             return json_encode(['data' => 'Comment not found']);
-        } elseif ($post->comments) {
-
         }
+        $comments = $post->comments;
 
         return $comments;
     }
