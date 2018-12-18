@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use \App\Models\PostComment\PostComment;
+use \App\Models\PostComments\PostComment;
 use \Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use \Illuminate\View\View;
-use \Illuminate\Support\Facades\Auth;
 
 class PostCommentController extends Controller
 {

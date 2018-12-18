@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Models\PostComment;
+namespace App\Models\PostComments;
 
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class FileComment extends Comment implements CommentInterface
 {
     private $comments;
-    private $model;
 
     public function __construct()
     {

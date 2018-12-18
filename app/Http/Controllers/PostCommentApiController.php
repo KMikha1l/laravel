@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\PostCommentResource;
-use App\Models\PostComment\PostComment;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
-use App\Models\PostComment\PostCommentFactory;
+use App\Models\PostComments\PostCommentFactory;
 
 class PostCommentApiController extends Controller
 {
