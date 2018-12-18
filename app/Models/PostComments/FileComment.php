@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Models\PostComment;
+namespace App\Models\PostComments;
 
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class FileComment extends Comment implements CommentInterface
 {
     private $comments;
-    private $model;
-    public static $storagePath = 'comments.json';
 
     public function __construct()
     {
-        $fileContent = Storage::disk('comments')->get(self::$storagePath);
+        $fileContent = Storage::disk('comments')->get('comments.json');
         $jsonComments = json_decode($fileContent);
         $this->comments = collect($jsonComments);
     }
@@ -33,7 +30,7 @@ class FileComment extends Comment implements CommentInterface
 
     public function show(int $id): string
     {
-        return $this->comments->where('id', 1)->toJson();
+        return $this->comments->where('id', $id)->toJson();
     }
 
     public function store(Request $request): string
@@ -71,7 +68,7 @@ class FileComment extends Comment implements CommentInterface
     public function destroy(int $id): JsonResponse
     {
         unset($this->comments[$id]);
-//        $this->updateCommentsFile();
+        $this->updateCommentsFile();
 
         return response()->json(null, 204);
     }
