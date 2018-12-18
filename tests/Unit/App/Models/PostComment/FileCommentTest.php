@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\App\Models\PostComment;
 
-use App\Models\PostComment\FileComment;
+use App\Models\PostComments\FileComment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
