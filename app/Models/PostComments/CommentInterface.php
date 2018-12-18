@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Models\PostComment;
+namespace App\Models\PostComments;
 
-use App\Models\PostComment\PostComment;
-use App\Http\Resources\PostCommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
