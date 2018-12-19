@@ -2,16 +2,16 @@
 
 namespace Tests\Unit\App\Models\PostComment;
 
-use App\Models\PostComment\FileComment;
+use App\Models\PostComments\FileComment;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use ReflectionProperty;
 use Tests\TestCase;
 use Carbon\Carbon;
 
 class FileCommentTest extends TestCase
 {
-
+    use RefreshDatabase;
     private static $data;
 
 
@@ -19,8 +19,6 @@ class FileCommentTest extends TestCase
     public function testIndex()
     {
         $comments = $this->initialData();
-//        dd(self::$data);
-//        dd(json_decode(self::$data));
         $this->assertEquals(json_decode($comments->index()), json_decode(self::$data));
     }
 
@@ -35,7 +33,7 @@ class FileCommentTest extends TestCase
     public function testShow()
     {
         $comments = $this->initialData();
-        $obj = '1';
+        $obj = 1;
 
         $comment = json_decode($comments->show(1))->{$obj};
 
@@ -146,7 +144,6 @@ class FileCommentTest extends TestCase
             }
         }    
     ';
-
 
         // Replacing work file via test file
         FileComment::$storagePath = 'testComments.json';

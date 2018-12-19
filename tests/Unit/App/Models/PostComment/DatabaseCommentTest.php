@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\App\Models\PostComment;
 
-use App\Models\PostComment\DatabaseComment;
-use App\Models\PostComment\PostComment;
+use App\Models\PostComments\DatabaseComment;
+use App\Models\PostComments\PostComment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DatabaseCommentTest extends TestCase
@@ -21,7 +19,6 @@ class DatabaseCommentTest extends TestCase
     public function testIndex()
     {
         $comments = $this->initialData();
-        $comments->index();
 
         $comments = json_decode($comments->index());
         $this->assertCount(2, $comments);
@@ -31,24 +28,20 @@ class DatabaseCommentTest extends TestCase
         $this->assertEquals($comments[0]->text, 'comment #1');
         $this->assertEquals($comments[0]->created_at, '2018-12-07 15:13:25');
         $this->assertEquals($comments[0]->updated_at, '2018-12-07 15:13:25');
-
     }
 
     public function testPostComments()
     {
         $comments = $this->initialData();
 
-        $this->assertCount(2, json_decode($comments->postComments(1)));
-        $this->assertEquals($comments->postComments(2), '{"data":"Comment not found"}');
-        $this->assertEquals($comments->postComments(3), '{"data":"Comment not found"}');
+        $this->assertEquals($comments->postComments(0), '{"data":"Post not found"}');
+        $this->assertEquals($comments->postComments(2), '[]');
     }
 
     public function testShow()
     {
         $comments = $this->initialData();
-
         $comment = $comments->show(1);
-
 
         $this->assertEquals(json_decode($comment)->id, 1);
         $this->assertEquals(json_decode($comment)->user_id, 1);
@@ -66,7 +59,6 @@ class DatabaseCommentTest extends TestCase
         $request->post_id = 1;
         $request->user_id = 1;
         $request->text = 'Just comment text';
-//        dd($request);
 
         $result = $comments->store($request);
         $this->assertEquals(json_decode($result)->post_id, 1);
@@ -74,9 +66,6 @@ class DatabaseCommentTest extends TestCase
         $this->assertEquals(json_decode($result)->text, 'Just comment text');
     }
 
-    /**
-     *
-     */
     public function testUpdate()
     {
         $comments = $this->initialData();
@@ -86,7 +75,7 @@ class DatabaseCommentTest extends TestCase
         $request->merge(['user_id' => 1]);
         $request->merge(['text' => 'Just comment text']);
 
-        $result = $comments->update($request, 1);
+        $comments->update($request, 1);
         $updatedComment = PostComment::where('id', 1)->first();
 
         $this->assertEquals($updatedComment->post_id, 1);
@@ -98,7 +87,7 @@ class DatabaseCommentTest extends TestCase
     {
         $comments = $this->initialData();
 
-        $result = $comments->destroy(1);
+        $comments->destroy(1);
 
         $deletedComment = PostComment::where('id', 1)->first();
         $this->assertNull($deletedComment);
@@ -106,9 +95,6 @@ class DatabaseCommentTest extends TestCase
 
     public function initialData()
     {
-//        calling seeders
-        Artisan::call('db:seed');
-
         return $comments = new DatabaseComment;
     }
 }

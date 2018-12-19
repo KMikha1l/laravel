@@ -1,15 +1,12 @@
 <?php
 namespace App\Models;
 
-use \Illuminate\Notifications\Notifiable;
-use \Illuminate\Contracts\Auth\MustVerifyEmail;
 use \Illuminate\Foundation\Auth\User as Authenticatable;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use \Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use Notifiable;
 
     const STATUS_DEACTIVATED = 0;
     const STATUS_ACTIVATED = 1;
@@ -25,6 +22,8 @@ class User extends Authenticatable
         'password',
         'role_id',
         'status',
+        'created_at',
+        'updated_at',
     ];
 
     /**
