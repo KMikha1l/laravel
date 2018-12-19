@@ -13,9 +13,10 @@ class PostCommentFactory
     ];
 
     // creating a new factory
-    public function createObject(): CommentInterface
+    public function createObject($commentsType = 'DatabaseComment'): CommentInterface
     {
-        $this->config = Config::get('app.comments_storage');
+        $this->setConfig($commentsType);
+
         $className = self::FACTORIES[$this->config];
         switch ($className) {
             case "DatabaseComment" :
@@ -29,5 +30,14 @@ class PostCommentFactory
             default:
                 return new FileComment;
         }
+    }
+
+    public function setConfig($commentsType)
+    {
+        if (array_key_exists($commentsType, self::FACTORIES)) {
+            $this->config = $commentsType;
+            return;
+        }
+        Config::get('app.comments_storage');
     }
 }

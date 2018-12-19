@@ -4,6 +4,8 @@ namespace App\Models\PostComments;
 
 use \Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
+use App\Models\Post;
 
 class PostComment extends Model
 {
@@ -16,15 +18,15 @@ class PostComment extends Model
 
     public function owner(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function post(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Post', 'post_id', 'id');
+        return $this->belongsTo(Post::class, 'post_id', 'id');
     }
 
-    public static function comentszList()
+    public static function commentsList()
     {
         return self::paginate();
     }
