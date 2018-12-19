@@ -35,7 +35,6 @@ class PostCommentFactory
 
     public function specificFactory($factoryName)
     {
-//        dd(self::FACTORIES);
         if (in_array($factoryName, self::FACTORIES)) {
             $factoryName = 'App\Models\PostComments\\' . $factoryName;
             return new $factoryName;
