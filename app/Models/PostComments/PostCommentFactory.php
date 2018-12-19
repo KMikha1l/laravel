@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Config;
 
 class PostCommentFactory
 {
-    private $config;
     const FACTORIES = [
         'DB' => 'DatabaseComment',
         'FILE' => 'FileComment',
@@ -15,19 +14,18 @@ class PostCommentFactory
     // creating a new factory
     public function createObject(): CommentInterface
     {
-        $this->config = Config::get('app.comments_storage');
-        $className = self::FACTORIES[$this->config];
-        switch ($className) {
-            case "DatabaseComment" :
-            return new DatabaseComment;
-                break;
+        $key = Config::get('app.comments_storage');
+        $factoryName = self::FACTORIES[$key];
 
-            case "FileComment" :
-                return new FileComment;
-                break;
+        return $this->specificFactory($factoryName);
+    }
 
-            default:
-                return new FileComment;
+    public function specificFactory($factoryName)
+    {
+        if (in_array($factoryName, self::FACTORIES)) {
+            $factoryName = 'App\Models\PostComments\\' . $factoryName;
+            return new $factoryName;
         }
+        return null;
     }
 }
