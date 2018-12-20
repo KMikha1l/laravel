@@ -20,12 +20,12 @@ class PostCommentFactory
         return $this->specificFactory($factoryName);
     }
 
-    public function specificFactory($factoryName)
+    public function specificFactory(string $factoryName): CommentInterface
     {
         if (in_array($factoryName, self::FACTORIES)) {
             $factoryName = 'App\Models\PostComments\\' . $factoryName;
             return new $factoryName;
         }
-        return null;
+        abort(500, "File $factoryName does not exist");
     }
 }
