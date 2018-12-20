@@ -2,6 +2,7 @@
 
 namespace App\Models\PostComments;
 
+use App\Exceptions\PostCommentFactoryException;
 use Illuminate\Support\Facades\Config;
 
 class PostCommentFactory
@@ -20,12 +21,18 @@ class PostCommentFactory
         return $this->specificFactory($factoryName);
     }
 
+    /**
+     * @param string $factoryName
+     * @return CommentInterface
+     * @throws PostCommentFactoryException
+     */
     public function specificFactory(string $factoryName): CommentInterface
     {
         if (in_array($factoryName, self::FACTORIES)) {
             $factoryName = 'App\Models\PostComments\\' . $factoryName;
             return new $factoryName;
         }
-        abort(500, "File $factoryName does not exist");
+
+        throw new PostCommentFactoryException("File $factoryName does not exist");
     }
 }

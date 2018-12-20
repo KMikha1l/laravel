@@ -16,7 +16,7 @@ class PostCommentFactoryTest extends TestCase
     const TYPE_FILE = 'FileComment';
 
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedException App\Exceptions\PostCommentFactoryException
      *
      * @return void
      */
