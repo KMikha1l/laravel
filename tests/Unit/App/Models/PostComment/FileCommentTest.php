@@ -14,7 +14,6 @@ class FileCommentTest extends TestCase
     use RefreshDatabase;
     private static $data;
 
-
     // All comments
     public function testIndex()
     {

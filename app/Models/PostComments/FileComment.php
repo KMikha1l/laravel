@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Storage;
 class FileComment extends Comment implements CommentInterface
 {
     private $comments;
+    public static $storagePath = 'comments.json';
 
     public function __construct()
     {
-        $fileContent = Storage::disk('comments')->get('comments.json');
+        $fileContent = Storage::disk('comments')->get(self::$storagePath);
         $jsonComments = json_decode($fileContent);
         $this->comments = collect($jsonComments);
     }
